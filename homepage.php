@@ -35,9 +35,27 @@
             <form action = "logout.php">
                 <input type = "submit" value = "Logout"/>
             </form>
+            <form action = "createPost.html">
+                <input type = "submit" value = "Create A Post//in other words POST TOWN"/>
+            </form>
             <?php
         }
     }
+    //require 'database.php';
+    //    $stmt = $mysqli->prepare("select title from posts");
+    //    if(!$stmt){
+    //        printf("Query Prep Failed: %s\n", $mysqli->error);
+    //        exit;
+    //    }
+    //    $stmt->execute();
+    //    $result = $stmt->get_result();
+    //    echo "<ul>\n";
+    //    //check to see if username already exists 
+    //    while($row = $result->fetch_assoc()){
+    //            printf("\t<li>%s</li>\n",
+    //            htmlspecialchars( $row["username"] )
+    //        );
+    //    }
     ?>
 </body>
 </html>
