@@ -31,10 +31,11 @@
     session_start();
     if (isset($_SESSION["loggedIn"])){
         if($_SESSION["loggedIn"] == "yes"){
-            printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));
-        }
-        else{
-            echo "not logged in";
+            printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));?>
+            <form action = "logout.php">
+                <input type = "submit" value = "Logout"/>
+            </form>
+            <?php
         }
     }
     ?>
