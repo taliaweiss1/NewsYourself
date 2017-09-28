@@ -21,19 +21,22 @@
 		 <input type="submit" value="Login" />
 	</p>
     </form>
-    <!--takes new user to a create user page -->
+    <!--takes a potential new user to a create user page -->
     <form action = "createUser.php" method = "POST">
     <p>
 		<input type="submit" value="Become A User" />
 	</p>
     </form>
     <?php
-        if($_SESSION["loggedIn"] = "yes"){
-            echo "you are logged in";
+    session_start();
+    if (isset($_SESSION["loggedIn"])){
+        if($_SESSION["loggedIn"] == "yes"){
+            printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));
         }
         else{
-            echo "you are not logged in";
+            echo "not logged in";
         }
+    }
     ?>
 </body>
 </html>

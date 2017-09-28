@@ -44,14 +44,21 @@
                 }
             }
             $stmt->close();
+            //password and username match
             if($passwordMatches){
                 session_start();
                 $_SESSION["loggedIn"] = "yes";
+                $_SESSION["user"] = $username;
                 header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");
             }
+            //password doesn't match for registered user -- take user to a password fail page 
             else{
-                header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");
+                header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/wrongPassword.html");
             }
+        }
+        //username doesn't exist-- take user to a wrong username page
+        else{
+            header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/wrongUsername.html");
         }
     }
 ?>
