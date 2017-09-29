@@ -67,6 +67,10 @@ if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST[
             $stmt->bind_param('ss', $username, $pass1);
             $stmt->execute();
             $stmt->close();
+			session_start();
+			$_SESSION["loggedIn"] = "yes";
+			$_SESSION["user"] = $_POST["newUsername"];
+			header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/successCreateUser.html");
         }
    }
 }
