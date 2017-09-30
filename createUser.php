@@ -4,6 +4,7 @@
     <title>Join News Yourself</title>
     <link rel = "stylesheet" type = "text/css" href = "styleNewsSite.css" />
 	<meta charset="utf-8"/>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     Username Cannot Exceed 20 Characters
@@ -20,6 +21,9 @@
         <label for="retypePassword">Retype Password:</label>
         <input type = "password" name = "retypePassword" id = "retypePassword"/>
     </p>
+	<p>
+		<div class="g-recaptcha" data-sitekey="6LdAszIUAAAAAKbz54igR-gR4kZe2z-9EyjFKQVZ"></div>
+	</p>
     <p>
 		<input type="submit" value="Create User" />
 	</p>
@@ -59,12 +63,13 @@ if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST[
         }
         //if username doesn't exist input the username and password into the users table 
         if(!$usernameExists){
+			$passHash = password_hash($pass1, PASSWORD_DEFAULT);
             $stmt = $mysqli->prepare("insert into users (username, password) values (?, ?)");
             if(!$stmt){
                 printf("Query Prep Failed: %s\n", $mysqli->error);
                 exit;
             }
-            $stmt->bind_param('ss', $username, $pass1);
+            $stmt->bind_param('ss', $username, $passHash);
             $stmt->execute();
             $stmt->close();
 			session_start();

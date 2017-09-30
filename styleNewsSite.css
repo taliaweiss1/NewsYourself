@@ -1,12 +1,21 @@
 h1{
-    color: white;
+    color: Crimson;
     text-align: center;
+    font-size: 400%;
 }
 body{
     background-color: black;
     color:white;
     font-family: Georgia, Times New Roman;
     text-align: center;
+}
+h2{
+    color: DarkSalmon;
+}
+h3{
+    color: LemonChiffon;
+    margin: 0px;
+    margin-bottom: 0px;
 }
 
 #title {

@@ -10,6 +10,9 @@ session_start();
             require 'database.php';
             $id = $_POST["editPost"];
             $_SESSION["editPostId"]=$id;
+            if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+                die("Request forgery detected");
+			}
             $stmt = $mysqli->prepare("select textInPost from posts where id=?");
             if(!$stmt){
                 printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -26,6 +29,7 @@ session_start();
                                 echo "<textarea name = 'postText' rows='10' cols='30'>" .$text."</textarea>";
                                 echo"<input type = 'text' name = 'editPost' style = 'display:none;' value ='" . $id. "'id='editPost'/>";
                                 echo "<input type='submit' value='Edit Post' />";
+                                echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                             echo "</p>";
                         echo "</form>";
                 echo "<form action = 'homepage.php'>";
@@ -40,6 +44,9 @@ session_start();
                         $id = $_SESSION["editPostId"];
                         $text = $_POST["postText"];
                         require 'database.php';
+                        if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+                            die("Request forgery detected");
+                        }
                         $stmt = $mysqli->prepare("update posts set textInPost=? where id=?");
                         if(!$stmt){
                             printf("Query Prep Failed: %s\n", $mysqli->error);

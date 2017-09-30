@@ -10,6 +10,7 @@
     <p>
          <label for="postTitle">Title for Your Story: </label>
          <input type = "text" name = "postTitle" id="postTitle"/>
+		 <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
     </p>
 	<p>
          Type your story here! ****This field is required to submit a story**** 
@@ -40,6 +41,12 @@
 				if(($_POST['postTitle'] !="") && ($_POST['postLink'] !="")){
 						$postTitle = $_POST['postTitle'];
 						$postLink = $_POST['postLink'];
+						if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+							printf("things start bellow here <br>");
+							 //printf("sesion one: " . var_dump($_SESSION['token']));
+                            printf("post one" . var_dump($_POST['token']));
+							die("Request forgery detected");
+						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username, title, link) values (?, ?, ?, ?)");
 						if(!$stmt){
 							printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -51,6 +58,9 @@
 					}   					
 				else if($_POST['postLink'] !=""){
 						$postLink = $_POST['postLink'];
+						if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+							die("Request forgery detected");
+						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username , link) values (?, ?, ?)");
 						if(!$stmt){
 							printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -62,6 +72,9 @@
 				}
 				else if($_POST['postTitle'] !=""){
 						$postTitle = $_POST['postTitle'];
+						if(!hash_equals($_SESSION['token'], $_POST['token'])){
+							die("Request forgery detected");
+						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username , title) values (?, ?, ?)");
 						if(!$stmt){
 							printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -72,6 +85,9 @@
 						$stmt->close();
 				}
 				else{
+						if(!hash_equals($_SESSION['token'], $_POST['token'])){
+							die("Request forgery detected");
+						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username) values (?, ?)");
 						if(!$stmt){
 							printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -81,6 +97,7 @@
 						$stmt->execute();
 						$stmt->close();
 				}
+				header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");
 			}
 			else{
 				echo "You must enter a story!";

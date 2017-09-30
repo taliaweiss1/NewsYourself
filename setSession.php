@@ -27,35 +27,33 @@
             }
         }
         if($usernameMatches){
-            $passwordMatches = false;
-            $stmt = $mysqli->prepare("select password from users");
-            if(!$stmt){
-                printf("Query Prep Failed: %s\n", $mysqli->error);
-                exit;
-            }
-            $stmt->execute();
-            $passwords = $stmt->get_result();
-            echo "<ul>\n";
-            //check to see if username already exists 
-            while($row = $passwords->fetch_assoc()){
-                if($password == htmlspecialchars($row["password"] )){
-                    $passwordMatches = true;
-                    break;
-                }
-            }
-            $stmt->close();
-            //password and username match
-            if($passwordMatches){
-                session_start();
-                $_SESSION["loggedIn"] = "yes";
-                $_SESSION["user"] = $username;
-                header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");
-            }
-            //password doesn't match for registered user -- take user to a password fail page 
-            else{
-                header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/wrongPassword.html");
-            }
-        }
+			require 'database.php';
+			// Use a prepared statement
+//			if(!hash_equals($_SESSION['token'], $_POST['token'])){
+//                die("Request forgery detected");
+//			}
+			$stmt = $mysqli->prepare("select password from users where username=?");
+		// Bind the parameter
+		$stmt->bind_param('s', $username);
+		$stmt->execute();
+		// Bind the results
+		$stmt->bind_result($pwd_hash);
+		$stmt->fetch();
+		$pwd_guess = $_POST['password'];
+		// Compare the submitted password to the actual password hash
+		if(password_verify($pwd_guess, $pwd_hash)){
+		// Login succeeded!
+		session_start();
+		$_SESSION["loggedIn"] = "yes";
+        $_SESSION["user"] = $username;
+		$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); // generate a 32-byte random string
+		// Redirect to your target page
+		header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");
+		} else{
+		// Login failed; redirect back to the login screen
+		header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/wrongPassword.html");
+		}
+		}
         //username doesn't exist-- take user to a wrong username page
         else{
             header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/wrongUsername.html");

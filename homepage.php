@@ -4,6 +4,7 @@
 	<title>News Yourself</title>
     <link rel = "stylesheet" type = "text/css" href = "styleNewsSite.css" />
 	<meta charset="utf-8"/>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     <h1>
@@ -14,7 +15,8 @@
     <p>
          <label for="username">Username: </label>
          <input type = "text" name = "username" id="username"/>
-    </p>
+<!--         <input type="hidden" name="token" value="/// echo $_SESSION['token'];?>" />
+-->    </p>
 	<p>
 		 <label for="password">Password: </label>
          <input type = "password" name = "password" id="password"/>
@@ -25,29 +27,11 @@
     <form action = "createUser.php" method = "POST">
     <p>
 		<input type="submit" value="Become A User" />
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
 	</p>
     </form>
     <?php
     session_start();
-        //if(isset($_POST["commentPostText"])){
-        //    if(trim($_POST["commentPostText"]) == ""){
-        //        echo "Your comment must have text.";
-        //    }
-        //    else{
-        //    $id=$_SESSION["editCommentId"];
-        //    $text = $_POST["commentPostText"];
-        //    require 'database.php';
-        //        $stmt = $mysqli->prepare("update comments set commentText=? where id=?");
-        //        if(!$stmt){
-        //            printf("Query Prep Failed: %s\n", $mysqli->error);
-        //            exit;
-        //        }
-        //        $stmt->bind_param('si', $text, $id);
-        //        $stmt->execute();
-        //        $result = $stmt->get_result();
-        //        $stmt->close();
-        //    }
-        //}
     require 'database.php';
         $stmt = $mysqli->prepare("select username from users");
         if(!$stmt){
@@ -62,7 +46,9 @@
         }
     if (isset($_SESSION["loggedIn"])){
         if($_SESSION["loggedIn"] == "yes"){
-            printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));?>
+            printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));
+            printf("<br>" . $_SESSION["token"] . "<br>");
+            ?>
             <form action = "logout.php">
                 <input type = "submit" value = "Logout"/>
             </form>
@@ -90,7 +76,7 @@
                     htmlspecialchars( $row["username"] ),
                     htmlspecialchars( $row["textInPost"] ));
                 if($row["link"] != ""){
-                    printf("Associated Links: %s",
+                    printf("Associated Link: %s",
                     htmlspecialchars( $row["link"] ));
                 }
                 $stmt2 = $mysqli->prepare("select id, username, commentText from comments where id=$row[id]"); 
@@ -100,8 +86,9 @@
                 }
                 $stmt2->execute();
                 $result2 = $stmt2->get_result();
+                printf("<h3> Comments: </h3>");
                 while($row2 = $result2->fetch_assoc()){
-                    printf("<br> %s: %s",
+                    printf("<br>%s: %s",
                     htmlspecialchars($row2["username"]),
                     htmlspecialchars($row2["commentText"]));
                     if(isset($_SESSION["loggedIn"])){
@@ -111,11 +98,13 @@
                                         echo"<input type = 'text' name = 'editComment' style = 'display:none;' value ='" . $row2['id'] . "'id='editComment'/>";
                                         echo"<input type = 'text' name = 'editCommentText' style = 'display:none;' value ='" . $row2['commentText'] . "'id='editCommentText'/>";
                                         echo"<input class = 'submit' type='submit' value='Edit' />";
+                                        echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                                 echo"</form>";
                                 echo "<form class = 'inline' action='deleteComment.php' method='POST'>";
                                         echo"<input type = 'text' name = 'deleteComment' style = 'display:none;' value ='" . $row2['id'] . "'id='deleteComment'/>";
                                         echo"<input type = 'text' name = 'deleteCommentText' style = 'display:none;' value ='" . $row2['commentText'] . "'id='deleteCommentText'/>";
                                         echo"<input class = 'submit' type='submit' value='Delete' />";
+                                        echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                                 echo"</form>";
                             }
                         }
@@ -130,6 +119,7 @@
                                 echo "<textarea name = 'comment' rows='2' cols='30'></textarea>";
                                 echo "<input type = 'text' name = 'postNum' style = 'display:none;' value ='" . $row['id'] . "' id='postNum'/>";
                                 echo "<input type='submit' value='Post Comment' />";
+                                echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                             echo "</p>";
                         echo "</form>";
         
@@ -139,14 +129,19 @@
                             $comment = (string)$_POST['comment'];
                             $user = (string)$_SESSION["user"];
                             $id = (int)$_POST["postNum"];
-                            $stmt3 = $mysqli->prepare("insert into comments (username, id, commentText) values (?, ?, ?)");
-                            if(!$stmt3){
-                                printf("Query Prep Failed: %s\n", $mysqli->error);
-                                exit;
+                            if(!hash_equals($_SESSION['token'], $_POST['token'])){
+                                die("Request forgery detected");
                             }
-                            $stmt3->bind_param('sis', $user, $id, $comment);
-                            $stmt3->execute();
-                            $stmt3->close();
+                            else{
+                                $stmt3 = $mysqli->prepare("insert into comments (username, id, commentText) values (?, ?, ?)");
+                                if(!$stmt3){
+                                    printf("Query Prep Failed: %s\n", $mysqli->error);
+                                    exit;
+                                }
+                                $stmt3->bind_param('sis', $user, $id, $comment);
+                                $stmt3->execute();
+                                $stmt3->close();
+                            }
                         }
                     }
                 }
@@ -157,10 +152,12 @@
                     echo "<form class = 'inline' action='editPost.php' method='POST'>";
                                 echo"<input type = 'text' name = 'editPost' style = 'display:none;' value ='" . $row['id'] . "'id='editPost'/>";
                                 echo"<input type='submit' value='Edit Post' />";
+                                echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo"</form>";
                     echo "<form class = 'inline' action='deletePost.php' method='POST'>";
                             echo"<input type = 'text' name = 'deletePost' style = 'display:none;' value ='" . $row['id'] . "'id='deletePost'/>";
                             echo"<input class = 'submit' type='submit' value='Delete Post' />";
+                            echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                      echo"</form>";
             }
             }
