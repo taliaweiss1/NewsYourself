@@ -33,7 +33,7 @@
 	<?php
 		session_start();
 		if(isset($_POST['postText'])){
-			if($_POST['postText'] !=""){
+			if(trim($_POST['postText']) !=""){
 				require 'database.php';
 				$postText = $_POST['postText'];
 				//if there is text, title and link

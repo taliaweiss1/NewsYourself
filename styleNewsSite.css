@@ -8,3 +8,16 @@ body{
     font-family: Georgia, Times New Roman;
     text-align: center;
 }
+
+#title {
+    margin:0px;
+}
+
+
+.submit {
+    display: inline-block;
+}
+
+.inline {
+    display: inline-block;
+}
