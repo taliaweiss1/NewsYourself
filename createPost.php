@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+	<?php
+		session_start();
+	?>
 <html>
 <head>
     <title>Create A Post</title>
@@ -32,7 +35,6 @@
 		</form>
 	</p>
 	<?php
-		session_start();
 		if(isset($_POST['postText'])){
 			if(trim($_POST['postText']) !=""){
 				require 'database.php';
@@ -42,9 +44,6 @@
 						$postTitle = $_POST['postTitle'];
 						$postLink = $_POST['postLink'];
 						if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
-							printf("things start bellow here <br>");
-							 //printf("sesion one: " . var_dump($_SESSION['token']));
-                            printf("post one" . var_dump($_POST['token']));
 							die("Request forgery detected");
 						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username, title, link) values (?, ?, ?, ?)");
@@ -72,7 +71,7 @@
 				}
 				else if($_POST['postTitle'] !=""){
 						$postTitle = $_POST['postTitle'];
-						if(!hash_equals($_SESSION['token'], $_POST['token'])){
+						if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
 							die("Request forgery detected");
 						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username , title) values (?, ?, ?)");
@@ -85,7 +84,7 @@
 						$stmt->close();
 				}
 				else{
-						if(!hash_equals($_SESSION['token'], $_POST['token'])){
+						if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
 							die("Request forgery detected");
 						}
 						$stmt = $mysqli->prepare("insert into posts (textInPost, username) values (?, ?)");

@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+	<?php
+		session_start();
+	?>
 <html>
 <head>
     <title>Join News Yourself</title>
@@ -20,6 +23,7 @@
     <p>
         <label for="retypePassword">Retype Password:</label>
         <input type = "password" name = "retypePassword" id = "retypePassword"/>
+		<!--<input type="hidden" name="token" value="php echo $_SESSION['token'];?>" />-->
     </p>
 	<p>
 		<div class="g-recaptcha" data-sitekey="6LdAszIUAAAAAKbz54igR-gR4kZe2z-9EyjFKQVZ"></div>
@@ -30,7 +34,11 @@
 </form>
 
 <?php
+
 if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST['retypePassword'])){
+	//if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+	//	die("Request forgery detected");
+	//}
     $username =  (string)$_POST["newUsername"];
     $pass1 = (string)$_POST["newPassword"];
     $pass2 = (string)$_POST["retypePassword"];
@@ -64,6 +72,9 @@ if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST[
         //if username doesn't exist input the username and password into the users table 
         if(!$usernameExists){
 			$passHash = password_hash($pass1, PASSWORD_DEFAULT);
+			//if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
+			//	die("Request forgery detected");
+			//}
             $stmt = $mysqli->prepare("insert into users (username, password) values (?, ?)");
             if(!$stmt){
                 printf("Query Prep Failed: %s\n", $mysqli->error);
@@ -72,9 +83,9 @@ if(isset($_POST['newUsername']) && isset($_POST['newPassword']) && isset($_POST[
             $stmt->bind_param('ss', $username, $passHash);
             $stmt->execute();
             $stmt->close();
-			session_start();
 			$_SESSION["loggedIn"] = "yes";
 			$_SESSION["user"] = $_POST["newUsername"];
+			$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); // generate a 32-byte random string
 			header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/successCreateUser.html");
         }
    }

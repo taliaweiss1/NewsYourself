@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+    <?php
+    session_start();
+    ?>
 <html>
 <head>
 	<title>News Yourself</title>
@@ -21,17 +24,17 @@
 		 <label for="password">Password: </label>
          <input type = "password" name = "password" id="password"/>
 		 <input type="submit" value="Login" />
+         <!--         <input type="hidden" name="token" value="/// echo $_SESSION['token'];?>" />
+-->  
 	</p>
     </form>
     <!--takes a potential new user to a create user page -->
-    <form action = "createUser.php" method = "POST">
+    <form action = "createUser.php">
     <p>
 		<input type="submit" value="Become A User" />
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
 	</p>
     </form>
     <?php
-    session_start();
     require 'database.php';
         $stmt = $mysqli->prepare("select username from users");
         if(!$stmt){
@@ -47,7 +50,6 @@
     if (isset($_SESSION["loggedIn"])){
         if($_SESSION["loggedIn"] == "yes"){
             printf("Welcome, %s <br>", htmlentities( $_SESSION["user"]));
-            printf("<br>" . $_SESSION["token"] . "<br>");
             ?>
             <form action = "logout.php">
                 <input type = "submit" value = "Logout"/>
@@ -129,7 +131,7 @@
                             $comment = (string)$_POST['comment'];
                             $user = (string)$_SESSION["user"];
                             $id = (int)$_POST["postNum"];
-                            if(!hash_equals($_SESSION['token'], $_POST['token'])){
+                            if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
                                 die("Request forgery detected");
                             }
                             else{

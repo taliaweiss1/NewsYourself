@@ -12,7 +12,7 @@ session_start();
             $id = $_POST["editComment"];
             $comment = $_POST["editCommentText"];
             $_SESSION["editCommentId"]=$id;
-            if(!hash_equals($_SESSION['token'], $_POST['token'])){
+            if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
 				die("Request forgery detected");
 			}
             else{
@@ -49,7 +49,7 @@ session_start();
                             $id = $_SESSION["editCommentId"];
                             $text = $_POST["commentPostText"];
                             require 'database.php';
-                            if(!hash_equals($_SESSION['token'], $_POST['token'])){
+                            if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
                                 die("Request forgery detected");
                             }
                             else{

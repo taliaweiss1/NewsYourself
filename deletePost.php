@@ -9,7 +9,7 @@
 session_start();
 require 'database.php';
             $id = $_POST["deletePost"];
-			if(!hash_equals($_SESSION['token'], $_POST['token'])){
+			if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
 				die("Request forgery detected");
 			}
 			else{
