@@ -4,8 +4,8 @@ Mia Bendy: 451146
 ##Link to Homepage: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php
 #### Login Details: 
 ###### If you wish to login to a user that already exists use:
-- Username: taliaweiss
-- Password: hello
+- Username: sattie
+- Password: sophie
 #### Creative Portion Details: 
 ###### Favoriting:
 - Gives users ability to favorite a post
