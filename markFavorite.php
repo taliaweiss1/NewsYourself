@@ -20,7 +20,7 @@
 			printf("Query Prep Failed: %s\n", $mysqli->error);
 			exit;
 		}
-		$stmt->bind_param('si', $_SESSION["user"], $_POST["markFavPostId"]);
+		$stmt->bind_param('si', $_SESSION["user"], $_POST["markFavPostId"]); //was post markFavPostId
 		$stmt->execute();
 		$stmt->close();
         header("Location: http://ec2-13-59-48-200.us-east-2.compute.amazonaws.com/~talia.weiss/homepage.php");

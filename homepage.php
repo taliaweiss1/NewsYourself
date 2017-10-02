@@ -134,8 +134,7 @@
                 if(!$favoritedAlready){
                     //if did not favorite the post, give option to favorite it 
                     echo "<form action='markFavorite.php' method='POST'>";
-                        echo"<input type = 'text' name = 'markFavPostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='markFavPostId'/>";
-                        echo"<input type = 'text' name = 'markFavUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='markFavUsername'/>";
+                        echo"<input type = 'text' name = 'markFavPostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='markFavPostId'/>";
                         echo"<input class = 'submit' type='submit' value='Mark Favorite' />";
                         echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo"</form>";
@@ -143,8 +142,7 @@
                 //if favorited the post give option to unmark it as a favorite
                 else{
                     echo "<form action='unmarkFavorite.php' method='POST'>";
-                        echo"<input type = 'text' name = 'markUnFavPostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='markUnFavPostId'/>";
-                        echo"<input type = 'text' name = 'markUnFavUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='markUnFavUsername'/>";
+                        echo"<input type = 'text' name = 'markUnFavPostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='markUnFavPostId'/>";
                         echo"<input class = 'submit' type='submit' value='UnMark Favorite' />";
                         echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo"</form>";
@@ -176,31 +174,31 @@
                 if($upVotedAlready){
                     //un-up vote option (performs the query in unVote.php)
                     echo "<form class = 'inline' action='unVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'unVoteID' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='unVoteID'/>";
-                        echo"<input type = 'text' name = 'unUpVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='unUpVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'unVoteID' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='unVoteID'/>";
+                        echo"<input type = 'text' name = 'unUpVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='unUpVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Un-Up Vote' />";
                     echo"</form>";
                     //switch to downVote option (performs the query in downVote.php)
                     echo "<form class = 'inline' action='downVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'upToDownVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='upToDownVotePostId'/>";
-                        echo"<input type = 'text' name = 'upToDownVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='upToDownVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'upToDownVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='upToDownVotePostId'/>";
+                        echo"<input type = 'text' name = 'upToDownVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='upToDownVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Down Vote' />";
-                        echo"<input type = 'number' name = 'upVoteToDownVote' style = 'display:none;' value = '1' id='upVoteToDownVote' />";
+                        echo"<input type = 'number' name = 'upVoteToDownVote' style = 'display:none;' value = '1' class='upVoteToDownVote' />";
                     echo"</form>";
                 }
                 //if already downvoted -- give option to undownvote or switch to upvote 
                 else if($downVotedAlready){
                     //switch to up vote option (performs query in upVote.php)
                     echo "<form class = 'inline' action='upVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'downToUpVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='downToUpVotePostId'/>";
-                        echo"<input type = 'text' name = 'downToUpVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='downToUpVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'downToUpVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='downToUpVotePostId'/>";
+                        echo"<input type = 'text' name = 'downToUpVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='downToUpVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Up Vote' />";
-                        echo"<input type = 'number' name = 'downVoteToUpVote' style = 'display:none;' value = '1' id='downVoteToUpVote' />";
+                        echo"<input type = 'number' name = 'downVoteToUpVote' style = 'display:none;' value = '1' class='downVoteToUpVote' />";
                     echo"</form>";
                     //un-down vote option (performs the query in unVote.php)
                     echo "<form class = 'inline' action='unVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'unVoteID' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "'id='unVoteID'/>";
-                        echo"<input type = 'text' name = 'unDownVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='unDownVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'unVoteID' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "'class='unVoteID'/>";
+                        echo"<input type = 'text' name = 'unDownVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='unDownVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Un-Down Vote' />";
                     echo"</form>";
                 }
@@ -208,17 +206,17 @@
                 else{
                     //up vote option
                     echo "<form class = 'inline' action='upVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'upVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='upVotePostId'/>";
-                        echo"<input type = 'text' name = 'upVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='upVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'upVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='upVotePostId'/>";
+                        echo"<input type = 'text' name = 'upVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='upVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Up Vote' />";
-                        echo"<input type = 'number' name = 'upVote' style = 'display:none;' value = '0' id='upVote' />";
+                        echo"<input type = 'number' name = 'upVote' style = 'display:none;' value = '0' class='upVote' />";
                     echo"</form>";
                     //down vote option
                     echo "<form class = 'inline' action='downVote.php' method='POST'>";
-                        echo"<input type = 'text' name = 'downVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='downVotePostId'/>";
-                        echo"<input type = 'text' name = 'downVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' id='downVotePostUsername'/>";
+                        echo"<input type = 'text' name = 'downVotePostId' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='downVotePostId'/>";
+                        echo"<input type = 'text' name = 'downVotePostUsername' style = 'display:none;' value ='" . $_SESSION['user'] . "' class='downVotePostUsername'/>";
                         echo"<input class = 'submit' type='submit' value='Down Vote' />";
-                        echo"<input type = 'number' name = 'downVote' style = 'display:none;' value = '0' id='downVote' />";
+                        echo"<input type = 'number' name = 'downVote' style = 'display:none;' value = '0' class='downVote' />";
                     echo"</form>";
                 }
             }
@@ -236,15 +234,15 @@
                         $text=htmlspecialchars_decode($row2['commentText']);
                         //edit their comment
                         echo "<form class = 'inline' action='editComment.php' method='POST'>";
-                                echo"<input type = 'text' name = 'editComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' id='editComment'/>";
-                                echo"<input type = 'text' name = 'editCommentText' style = 'display:none;' value = '$text' id='editCommentText'/>";
+                                echo"<input type = 'text' name = 'editComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' class='editComment'/>";
+                                echo"<input type = 'text' name = 'editCommentText' style = 'display:none;' value = '$text' class='editCommentText'/>";
                                 echo"<input class = 'submit' type='submit' value='Edit' />";
                                 echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                         echo"</form>";
                         //delete their comment
                         echo "<form class = 'inline' action='deleteComment.php' method='POST'>";
-                                echo"<input type = 'text' name = 'deleteComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' id='deleteComment'/>";
-                                echo"<input type = 'text' name = 'deleteCommentText' style = 'display:none;' value ='" . htmlspecialchars($row2['commentText']) . "' id='deleteCommentText'/>";
+                                echo"<input type = 'text' name = 'deleteComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' class='deleteComment'/>";
+                                echo"<input type = 'text' name = 'deleteCommentText' style = 'display:none;' value ='" . htmlspecialchars($row2['commentText']) . "' class='deleteCommentText'/>";
                                 echo"<input class = 'submit' type='submit' value='Delete' />";
                                 echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                         echo"</form>";
@@ -260,7 +258,7 @@
                 echo "<form action= " . htmlentities($_SERVER['PHP_SELF']) . " method='POST'>";
                     echo"<p>";
                         echo "<textarea name = 'comment' rows='2' cols='30'></textarea>";
-                        echo "<input type = 'text' name = 'postNum' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' id='postNum'/>";
+                        echo "<input type = 'text' name = 'postNum' style = 'display:none;' value ='" . htmlspecialchars($row['id']) . "' class='postNum'/>";
                         echo "<input type='submit' value='Post Comment' />";
                         echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo "</p>";
@@ -297,13 +295,13 @@
                 if($_SESSION["user"] == htmlspecialchars($row["username"])){
                     //edit post
                     echo "<form class = 'inline' action='editPost.php' method='POST'>";
-                        echo"<input type = 'text' name = 'editPost' style = 'display:none;' value ='" . $row['id'] . "' id='editPost'/>";
+                        echo"<input type = 'text' name = 'editPost' style = 'display:none;' value ='" . $row['id'] . "' class='editPost'/>";
                         echo"<input type='submit' value='Edit Post' />";
                         echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo"</form>";
                     //delete post
                     echo "<form class = 'inline' action='deletePost.php' method='POST'>";
-                        echo"<input type = 'text' name = 'deletePost' style = 'display:none;' value ='" . $row['id'] . "' id='deletePost'/>";
+                        echo"<input type = 'text' name = 'deletePost' style = 'display:none;' value ='" . $row['id'] . "' class='deletePost'/>";
                         echo"<input class = 'submit' type='submit' value='Delete Post' />";
                         echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                     echo"</form>";
