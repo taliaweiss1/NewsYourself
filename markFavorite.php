@@ -13,6 +13,7 @@
         if(!hash_equals($_SESSION['token'], str_replace('/','',$_POST['token']))){
 			die("Request forgery detected");
 		}
+		//if no forgery, update favorite table with the user who wishes to favorite and the post id of the post
         require 'database.php';
 		$stmt = $mysqli->prepare("insert into favorites (username, id) values (?, ?)");
 		if(!$stmt){

@@ -19,11 +19,15 @@ h3{
     margin: 0px 0px 0px 0px;
     }
 
-#title {
+.title {
     margin: 0px 0px 0px 0px;
 }
 
 #login {
+    text-align: center;
+}
+
+.log {
     text-align: center;
 }
 
