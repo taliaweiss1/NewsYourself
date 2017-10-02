@@ -9,6 +9,8 @@
 	<meta charset="utf-8"/>
 </head>
 <body>
+	<h1>News Yourself</h1>
+	<h2>Create Post:</h2>
     <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
     <p>
          <label for="postTitle">Title for Your Story: </label>

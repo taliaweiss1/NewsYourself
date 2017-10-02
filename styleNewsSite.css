@@ -2,26 +2,30 @@ h1{
     color: Crimson;
     text-align: center;
     font-size: 400%;
+    margin: 0px;
+    margin-bottom: 0px;
 }
 body{
     background-color: black;
     color:white;
     font-family: Georgia, Times New Roman;
-    text-align: center;
 }
 h2{
     color: DarkSalmon;
+    margin: 0px 0px 0px 0px;
 }
 h3{
     color: LemonChiffon;
-    margin: 0px;
-    margin-bottom: 0px;
-}
+    margin: 0px 0px 0px 0px;
+    }
 
 #title {
-    margin:0px;
+    margin: 0px 0px 0px 0px;
 }
 
+#login {
+    text-align: center;
+}
 
 .submit {
     display: inline-block;
