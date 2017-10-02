@@ -231,18 +231,18 @@
                 if($_SESSION["loggedIn"] == "yes"){
                     //if one of the comments is by the logged in user, give option to edit and delete their comment
                     if($_SESSION["user"] == htmlspecialchars($row2["username"])){
-                        $text=htmlspecialchars_decode($row2['commentText']);
+                        $text=(htmlspecialchars($row2['commentText']));
                         //edit their comment
                         echo "<form class = 'inline' action='editComment.php' method='POST'>";
                                 echo"<input type = 'text' name = 'editComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' class='editComment'/>";
-                                echo"<input type = 'text' name = 'editCommentText' style = 'display:none;' value = '$text' class='editCommentText'/>";
+                                echo"<input type = 'text' name = 'editCommentText' style = 'display:none;' value = '" . $text . "' class='editCommentText'/>";
                                 echo"<input class = 'submit' type='submit' value='Edit' />";
                                 echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                         echo"</form>";
                         //delete their comment
                         echo "<form class = 'inline' action='deleteComment.php' method='POST'>";
                                 echo"<input type = 'text' name = 'deleteComment' style = 'display:none;' value ='" . htmlspecialchars($row2['id']) . "' class='deleteComment'/>";
-                                echo"<input type = 'text' name = 'deleteCommentText' style = 'display:none;' value ='" . htmlspecialchars($row2['commentText']) . "' class='deleteCommentText'/>";
+                                echo"<input type = 'text' name = 'deleteCommentText' style = 'display:none;' value ='" . $text . "' class='deleteCommentText'/>";
                                 echo"<input class = 'submit' type='submit' value='Delete' />";
                                 echo "<input type='hidden' name='token' value=" . $_SESSION['token'] . "/>";
                         echo"</form>";
