@@ -13,3 +13,4 @@ A News Service website that allows registered users to post stories and comments
 - Most popular posts are defined as having more than 2 upvotes
 
 
+Written in collaboration with Mia Bendy.
